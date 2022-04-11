@@ -1,0 +1,44 @@
+{
+  "name": "bottom-up-slider",
+  "version": "1.0.0",
+  "description": "Pull Up Slider",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayush-bii/bottom-up-slider.git"
+  },
+  "keywords": [
+    "Bottom",
+    "Up",
+    "Slider",
+    "react-native",
+    "gesture",
+    "animation",
+    "react",
+    "native",
+    "modal",
+    "android",
+    "ios"
+  ],
+  "dependencies": {
+    "react-native-gesture-handler": "^1.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.12.3",
+    "@babel/runtime": "7.12.1",
+    "@react-native-community/eslint-config": "1.1.0",
+    "babel-jest": "25.5.1",
+    "eslint": "6.8.0",
+    "jest": "25.5.4",
+    "react-test-renderer": "16.13.1"
+  },
+  "author": "Aayush Khandelwal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayush-bii/bottom-up-slider/issues"
+  },
+  "homepage": "https://github.com/ayush-bii/bottom-up-slider#readme"
+}
