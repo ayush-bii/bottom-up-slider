@@ -13,7 +13,7 @@ import AppColors from '../../utils/AppColors';
 
 
 const HEADER_HEIGHT = 100;
-const SNAP_POINTS_FROM_TOP = [0, 100, Dimensions.get('window').height - 30];
+const SNAP_POINTS_FROM_TOP = [0, 100, Dimensions.get('window').height - Dimensions.get('window').height / 10];
 
 
 export class BottomSheet extends Component {
@@ -29,7 +29,7 @@ export class BottomSheet extends Component {
         const END = SNAP_POINTS_FROM_TOP[SNAP_POINTS_FROM_TOP.length - 1];
 
         this.state = {
-            snap_points_from_top: [0, 100, Dimensions.get('window').height - 30],
+            snap_points_from_top: [0, 100, Dimensions.get('window').height - Dimensions.get('window').height / 10],
             lastSnap: 100,
         };
 
@@ -101,8 +101,6 @@ export class BottomSheet extends Component {
         }
     };
     render() {
-        console.log(this.props.snap_points_from_top, '------------------  ', this.state.snap_points_from_top);
-
         return (
             <View style={AppStyles.container}>
                 {/* parent of slider view */}
