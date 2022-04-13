@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { Animated, StyleSheet, View, Dimensions } from 'react-native';
 import {
     PanGestureHandler,
     NativeViewGestureHandler,
     State,
     TapGestureHandler,
-    TouchableOpacity,
 } from 'react-native-gesture-handler';
-import AppImages from '../../utils/AppImages';
+
 import AppStyles from '../../utils/AppStyles';
-import AppColors from '../../utils/AppColors';
 
 
-const HEADER_HEIGHT = 100;
-const SNAP_POINTS_FROM_TOP = [0, 100, Dimensions.get('window').height - Dimensions.get('window').height / 10];
+
+
 
 
 export class BottomSheet extends Component {
@@ -25,11 +23,10 @@ export class BottomSheet extends Component {
         super(props);
 
 
-        const START = SNAP_POINTS_FROM_TOP[0];
-        const END = SNAP_POINTS_FROM_TOP[SNAP_POINTS_FROM_TOP.length - 1];
+
 
         this.state = {
-            snap_points_from_top: [0, 100, Dimensions.get('window').height - Dimensions.get('window').height / 10],
+            snap_points_from_top: this.props.snap_points_from_top || [0, 100, Dimensions.get('window').height - Dimensions.get('window').height / 3],
             lastSnap: 100,
         };
 
@@ -78,9 +75,9 @@ export class BottomSheet extends Component {
             const endOffsetY =
                 this.state.snap_points_from_top[this.state.snap_points_from_top.length - 1] + translationY + dragToss * velocityY;
 
-            let destSnapPoint = SNAP_POINTS_FROM_TOP[0];
-            for (let i = 0; i < SNAP_POINTS_FROM_TOP.length; i++) {
-                const snapPoint = SNAP_POINTS_FROM_TOP[i];
+            let destSnapPoint = this.state.snap_points_from_top[0];
+            for (let i = 0; i < this.state.snap_points_from_top.length; i++) {
+                const snapPoint = this.state.snap_points_from_top[i];
                 const distFromSnap = Math.abs(snapPoint - endOffsetY);
                 if (distFromSnap < Math.abs(destSnapPoint - endOffsetY)) {
                     destSnapPoint = snapPoint;
@@ -112,7 +109,7 @@ export class BottomSheet extends Component {
                 <TapGestureHandler
                     maxDurationMs={100000}
                     ref={this.masterdrawer}
-                    maxDeltaY={this.state.snap_points_from_top[this.state.snap_points_from_top.length - 1] - SNAP_POINTS_FROM_TOP[0]}>
+                    maxDeltaY={this.state.snap_points_from_top[this.state.snap_points_from_top.length - 1] - this.state.snap_points_from_top[0]}>
                     <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
                         <Animated.View
                             style={[
@@ -121,24 +118,7 @@ export class BottomSheet extends Component {
                                     transform: [{ translateY: this._translateY }]
                                 },
                             ]}>
-                            {/* <PanGestureHandler
-                                ref={this.drawerheader}
-                                simultaneousHandlers={[this.scroll, this.masterdrawer]}
-                                shouldCancelWhenOutside={false}
-                                onGestureEvent={this._onGestureEvent}
-                                onHandlerStateChange={this._onHeaderHandlerStateChange}>
 
-
-
-                                <Animated.View style={styles.header} >
-
-                                    <View style={styles.circle} >
-
-                                    </View>
-                                    <View style={styles.headerWhite} />
-
-                                </Animated.View>
-                            </PanGestureHandler> */}
                             <PanGestureHandler
                                 ref={this.drawer}
                                 simultaneousHandlers={[this.scroll, this.masterdrawer]}
@@ -153,7 +133,7 @@ export class BottomSheet extends Component {
                                         <Animated.ScrollView
                                             style={[
                                                 styles.scrollView,
-                                                { marginBottom: SNAP_POINTS_FROM_TOP[0] },
+                                                { marginBottom: this.state.snap_points_from_top[0] },
                                             ]}
                                             bounces={true}
                                             onScrollBeginDrag={this._onRegisterLastScroll}
@@ -161,7 +141,7 @@ export class BottomSheet extends Component {
 
                                             {/* Container of Slider */}
                                             <View style={styles.slider}>
-                                                <View style={{ width: 100, backgroundColor: '#e3e3e3', height: 5, borderRadius: 10, marginBottom: 50 }} />
+                                                <View style={{ width: 100, backgroundColor: '#e3e3e3', height: 5, borderRadius: 10, marginBottom: 50, alignSelf: 'center', marginTop: 10 }} />
                                                 {this.props.children[1]}
                                             </View>
                                         </Animated.ScrollView>
@@ -175,10 +155,10 @@ export class BottomSheet extends Component {
         );
     }
     componentDidMount() {
-        if (this.props.snap_points_from_top.length > 0) {
 
-            this.setState({ snap_points_from_top: this.props.snap_points_from_top })
-        }
+        // if (this.props.snap_points_from_top?.length > 0) {
+        //     this.setState({ snap_points_from_top: this.props.snap_points_from_top })
+        // }
 
     }
 
@@ -188,32 +168,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        height: HEADER_HEIGHT,
-        alignItems: 'center'
-    },
-    circle: {
-        height: 100,
-        width: 100,
-        borderRadius: 50,
-        zIndex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'lightblue'
-    },
 
-    headerWhite: {
-        height: 50,
-        zIndex: -1,
-        width: '100%',
-        marginTop: -50,
-        backgroundColor: 'yellow',
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30
-    },
+
+
 
     scrollView: {
-        backgroundColor: 'white',
         width: '100%',
         height: '100%'
     },
@@ -221,10 +180,10 @@ const styles = StyleSheet.create({
     slider: {
         flex: 1,
         height: Dimensions.get('window').height,
-        alignItems: 'center',
-        padding: 10,
         width: '100%',
-        backgroundColor: 'black'
+        backgroundColor: 'lightpink',
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
     },
 
 });
